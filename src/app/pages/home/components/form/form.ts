@@ -26,7 +26,7 @@ export class Form {
     { value: 'advanced', label: 'Advanced' },
     { value: 'pro', label: 'Pro' }
   ];
-
+  
   ngOnInit() {
     this.form = this.fb.group({
       firstName: [''],
@@ -51,9 +51,13 @@ export class Form {
     if (file && file.name.endsWith('.csv')) {
       this.fileName.set(file.name);
       this.form.patchValue({ csv: file });
+      this.form.get('csv')?.markAsDirty();
+      this.form.get('csv')?.markAsTouched();
     } else {
       this.fileName.set(null);
       this.form.patchValue({ csv: null });
+      this.form.get('csv')?.markAsDirty();
+      this.form.get('csv')?.markAsTouched();
     }
   }
 

@@ -34,31 +34,38 @@
 >
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-      <label class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
+      <label
+        for="firstName"
+        class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
         >First Name</label
       >
       <input
         formControlName="firstName"
+        id="firstName"
         type="text"
         class="form-input mb-[1.25rem]"
       />
     </div>
     <div>
-      <label class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
+      <label
+        for="lastName"
+        class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
         >Last Name</label
       >
       <input
         formControlName="lastName"
+        id="lastName"
         type="text"
         class="form-input mb-[1.25rem]"
       />
     </div>
     <div>
-      <label class="text-sm font-medium text-gray-700 mb-0.5">
+      <label for="email" class="text-sm font-medium text-gray-700 mb-0.5">
         Email <span class="text-red-500 font-bold">*</span>
       </label>
       <input
         formControlName="email"
+        id="email"
         type="email"
         class="form-input"
         name="email"
@@ -74,10 +81,14 @@
       </div>
     </div>
     <div>
-      <label class="text-sm font-medium text-gray-700 mb-0.5"
+      <label for="subscription" class="text-sm font-medium text-gray-700 mb-0.5"
         >Subscription</label
       >
-      <select formControlName="subscription" class="form-input mb-[1.25rem]">
+      <select
+        formControlName="subscription"
+        id="subscription"
+        class="form-input mb-[1.25rem]"
+      >
         <option
           *ngFor="let option of subscriptionOptions"
           [value]="option.value"
@@ -88,12 +99,13 @@
     </div>
 
     <div>
-      <label class="text-sm font-medium text-gray-700 mb-0.5">
+      <label for="password" class="text-sm font-medium text-gray-700 mb-0.5">
         Password <span class="text-red-500 font-bold">*</span>
       </label>
       <div class="relative">
         <input
           formControlName="password"
+          id="password"
           [type]="showPassword() ? 'text' : 'password'"
           class="form-input pr-10 w-full"
           name="password-input"
@@ -122,16 +134,29 @@
     </div>
 
     <div>
-      <label class="text-sm font-medium text-gray-700 mb-0.5">Upload CSV</label>
+      <label
+        for="fileInput"
+        class="text-sm font-medium text-gray-700 mb-1 block"
+        >Upload CSV</label
+      >
+
       <input
         type="file"
+        id="fileInput"
         (change)="onFileChange($event)"
         accept=".csv"
-        class="form-input cursor-pointer"
+        class="hidden"
       />
-      <div class="text-red-500 text-sm min-h-[1.25rem]">
-        <p *ngIf="fileName()" class="text-sm text-gray-600 mt-1">
-          Selected: {{ fileName() }}
+      <div class="flex flex-col items-center gap-1">
+        <label
+          for="fileInput"
+          class="inline-flex items-center gap-2 cursor-pointer bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition hover:scale-105"
+        >
+          <i class="fas fa-upload text-white"></i>
+          {{ fileName() ? 'Change File' : 'Select File' }}
+        </label>
+        <p class="text-sm text-gray-600">
+          {{ fileName() || 'No file selected' }}
         </p>
       </div>
     </div>
