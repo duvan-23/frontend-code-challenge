@@ -1,30 +1,30 @@
-<div
-  *ngIf="showSummaryErrors()"
-  class="bg-red-100 text-red-700 p-3 rounded mb-4 border border-red-300"
->
-  <ul class="list-disc pl-5">
-    <li
-      *ngIf="form.get('email')?.invalid && form.get('email')?.errors?.['required']"
+<div class="min-h-[4.0rem]">
+  <ng-container *ngIf="!showSummaryErrors(); else errorMsg">
+    <p class="text-sm text-gray-600 leading-relaxed tracking-wide">
+      Please enter the required information to process your request. Fields
+      marked with <span class="text-red-500 font-bold">*</span> are mandatory.
+    </p>
+  </ng-container>
+  <ng-template #errorMsg>
+    <div
+      class="bg-red-100 text-red-700 p-2 rounded mb-2 border border-red-300 text-sm"
     >
-      The email is required.
-    </li>
-    <li
-      *ngIf="form.get('email')?.invalid && form.get('email')?.errors?.['email']"
-    >
-      The email is invalid.
-    </li>
-    <li
-      *ngIf="form.get('password')?.invalid && form.get('password')?.errors?.['required']"
-    >
-      Password is required.
-    </li>
-    <li
-      *ngIf="form.get('password')?.invalid && form.get('password')?.errors?.['pattern']"
-    >
-      Password is invalid
-    </li>
-    <!-- add more as needed -->
-  </ul>
+      <ul class="list-none pl-4">
+        <li *ngIf="form.get('email')?.invalid" class="flex items-start gap-2">
+          <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
+          {{ getEmailErrorMessage() }}
+        </li>
+
+        <li
+          *ngIf="form.get('password')?.invalid"
+          class="flex items-start gap-2"
+        >
+          <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
+          {{ getPasswordErrorMessage() }}
+        </li>
+      </ul>
+    </div>
+  </ng-template>
 </div>
 <form
   [formGroup]="form"
@@ -32,10 +32,9 @@
   class="space-y-2"
   autocomplete="off"
 >
-  <!-- First and Last Name -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-0.5"
+      <label class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
         >First Name</label
       >
       <input
@@ -45,7 +44,7 @@
       />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-0.5"
+      <label class="flex-1 text-sm font-medium text-gray-700 mb-0.5"
         >Last Name</label
       >
       <input
@@ -54,109 +53,101 @@
         class="form-input mb-[1.25rem]"
       />
     </div>
-  </div>
-
-  <!-- Email -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-0.5">Email</label>
-    <input
-      formControlName="email"
-      type="email"
-      class="form-input"
-      name="email"
-      autocomplete="off"
-    />
-    <div class="text-red-500 text-sm min-h-[1.25rem]">
-      <p
-        *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
-        class="text-red-500 text-sm"
-      >
-        Please enter a valid email address.
-      </p>
-    </div>
-  </div>
-
-  <!-- Subscription -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-0.5"
-      >Subscription</label
-    >
-    <select formControlName="subscription" class="form-input mb-[1.25rem]">
-      <option value="basic">Basic</option>
-      <option value="advanced">Advanced</option>
-      <option value="pro">Pro</option>
-    </select>
-  </div>
-
-  <!-- Password -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-0.5"
-      >Password</label
-    >
-    <div class="relative">
+    <div>
+      <label class="text-sm font-medium text-gray-700 mb-0.5">
+        Email <span class="text-red-500 font-bold">*</span>
+      </label>
       <input
-        formControlName="password"
-        [type]="showPassword() ? 'text' : 'password'"
-        class="form-input pr-10 w-full"
-        name="password-input"
-        autocomplete="new-password"
+        formControlName="email"
+        type="email"
+        class="form-input"
+        name="email"
+        autocomplete="off"
       />
-      <button
-        type="button"
-        (click)="togglePassword()"
-        class="absolute inset-y-0 right-2 flex items-center text-gray-600"
-        tabindex="-1"
-      >
-        <i class="fas" [ngClass]="showPassword() ? 'fa-eye' : 'fa-eye-slash'"></i>
-      </button>
+      <div class="text-red-500 text-sm min-h-[1.25rem]">
+        <p
+          *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+          class="text-red-500 text-sm"
+        >
+          {{ getEmailErrorMessage() }}
+        </p>
+      </div>
     </div>
-    <div class="text-red-500 text-sm min-h-[2.50rem]">
-      <p
-        *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
-        class="text-red-500 text-sm"
+    <div>
+      <label class="text-sm font-medium text-gray-700 mb-0.5"
+        >Subscription</label
       >
-        Password must be at least 8 characters. <br />Include a letter and a
-        special character.
-      </p>
+      <select formControlName="subscription" class="form-input mb-[1.25rem]">
+        <option
+          *ngFor="let option of subscriptionOptions"
+          [value]="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label class="text-sm font-medium text-gray-700 mb-0.5">
+        Password <span class="text-red-500 font-bold">*</span>
+      </label>
+      <div class="relative">
+        <input
+          formControlName="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          class="form-input pr-10 w-full"
+          name="password-input"
+          autocomplete="new-password"
+        />
+        <button
+          type="button"
+          (click)="togglePassword()"
+          class="absolute inset-y-0 right-2 flex items-center text-gray-600"
+          tabindex="-1"
+        >
+          <i
+            class="fas"
+            [ngClass]="showPassword() ? 'fa-eye' : 'fa-eye-slash'"
+          ></i>
+        </button>
+      </div>
+      <div class="text-red-500 text-sm min-h-[2.50rem]">
+        <p
+          *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+          class="text-red-500 text-sm"
+        >
+          {{ getPasswordErrorMessage() }}
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <label class="text-sm font-medium text-gray-700 mb-0.5">Upload CSV</label>
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        accept=".csv"
+        class="form-input cursor-pointer"
+      />
+      <div class="text-red-500 text-sm min-h-[1.25rem]">
+        <p *ngIf="fileName()" class="text-sm text-gray-600 mt-1">
+          Selected: {{ fileName() }}
+        </p>
+      </div>
     </div>
   </div>
 
-  <!-- CSV -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-0.5"
-      >Upload CSV</label
-    >
-    <input
-      type="file"
-      (change)="onFileChange($event)"
-      accept=".csv"
-      class="form-input cursor-pointer"
-    />
-    <div class="text-red-500 text-sm min-h-[1.25rem]">
-      <p
-        *ngIf="form.get('csv')?.touched && form.get('csv')?.invalid"
-        class="text-red-500 text-sm"
-      >
-        CSV file is required.
-      </p>
-      <p *ngIf="fileName()" class="text-sm text-gray-600 mt-1">
-        Selected: {{ fileName() }}
-      </p>
-    </div>
-  </div>
-
-  <!-- Buttons -->
-  <div class="flex justify-around pt-4">
+  <div class="flex justify-center pt-4">
     <button
       type="submit"
-      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105 mx-3"
     >
       Submit
     </button>
     <button
       type="button"
       (click)="onClear()"
-      class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1.5 rounded-md transition hover:scale-105"
+      class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1.5 rounded-md transition hover:scale-105 mx-3"
     >
       Clear
     </button>

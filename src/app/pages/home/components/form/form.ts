@@ -21,6 +21,11 @@ export class Form {
   showPassword = signal(false);
   passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
   fb = inject(FormBuilder);
+  subscriptionOptions = [
+    { value: 'basic', label: 'Basic' },
+    { value: 'advanced', label: 'Advanced' },
+    { value: 'pro', label: 'Pro' }
+  ];
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -36,7 +41,7 @@ export class Form {
           Validators.pattern(this.passwordPattern),
         ],
       ],
-      csv: [null, Validators.required],
+      csv: [null],
     });
   }
 
@@ -56,7 +61,6 @@ export class Form {
     if (this.form.valid) {
       console.log(this.form.value);
     } else {
-      // this.form.markAllAsTouched();
       this.showSummaryErrors.set(true);
     }
   }
@@ -84,5 +88,20 @@ export class Form {
 
   togglePassword() {
     this.showPassword.update((value) => !value);
+  }
+
+  getEmailErrorMessage(): string {
+    const email = this.form.get('email');
+    if (email?.hasError('required')) return 'Email is required.';
+    if (email?.hasError('email')) return 'Email is invalid.';
+    return '';
+  }
+
+  getPasswordErrorMessage(): string {
+    const password = this.form.get('password');
+    if (password?.hasError('required')) return 'Password is required.';
+    if (password?.hasError('minlength')) return 'Password must be at least 8 characters.';
+    if (password?.hasError('pattern')) return 'Password must include a letter and a special character.';
+    return '';
   }
 }
