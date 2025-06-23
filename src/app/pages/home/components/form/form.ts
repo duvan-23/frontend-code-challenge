@@ -11,9 +11,10 @@ import Swal from 'sweetalert2';
 import { SubscriptionOption } from '@shared/models/subscription-option.interface';
 import { SubscriptionType } from '@shared/models/subscription-type.enum';
 import { HighlightInvalid } from '@shared/directives/highlight-invalid';
+import { FormErrorMessagePipe } from '@shared/pipes/form-error-message-pipe';
 @Component({
   selector: 'app-form',
-  imports: [CommonModule, ReactiveFormsModule, HighlightInvalid ],
+  imports: [CommonModule, ReactiveFormsModule, HighlightInvalid, FormErrorMessagePipe ],
   templateUrl: './form.html',
   styleUrl: './form.css',
 })
@@ -120,23 +121,6 @@ export class Form {
 
   togglePassword() {
     this.showPassword.update((value) => !value);
-  }
-
-  getEmailErrorMessage(): string {
-    const email = this.form.get('email');
-    if (email?.hasError('required')) return 'Email is required.';
-    if (email?.hasError('email')) return 'Email is invalid.';
-    return '';
-  }
-
-  getPasswordErrorMessage(): string {
-    const password = this.form.get('password');
-    if (password?.hasError('required')) return 'Password is required.';
-    if (password?.hasError('minlength'))
-      return 'Password must be at least 8 characters.';
-    if (password?.hasError('pattern'))
-      return 'Password must include a letter and a special character.';
-    return '';
   }
 
   ngOnDestroy() {

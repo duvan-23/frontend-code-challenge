@@ -12,7 +12,7 @@
       <ul class="list-none pl-4">
         <li *ngIf="form.get('email')?.invalid" class="flex items-start gap-2">
           <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
-          {{ getEmailErrorMessage() }}
+          {{ form.get('email') | formErrorMessage: 'Email' }}
         </li>
 
         <li
@@ -20,7 +20,7 @@
           class="flex items-start gap-2"
         >
           <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
-          {{ getPasswordErrorMessage() }}
+          {{ form.get('password') | formErrorMessage: 'Password': 'a letter and a special character.' }}
         </li>
       </ul>
     </div>
@@ -77,7 +77,7 @@
           *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
           class="text-red-600 text-sm"
         >
-          {{ getEmailErrorMessage() }}
+          {{ form.get('email') | formErrorMessage: 'Email' }}
         </p>
       </div>
     </div>
@@ -125,12 +125,12 @@
           ></i>
         </button>
       </div>
-      <div class="text-red-600 text-sm min-h-[2.50rem]">
+      <div class="text-red-600 text-sm min-h-[3.0rem]">
         <p
           *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
           class="text-red-600 text-sm"
         >
-          {{ getPasswordErrorMessage() }}
+          {{ form.get('password') | formErrorMessage: 'Password': 'a letter and a special character.' }}
         </p>
       </div>
     </div>
