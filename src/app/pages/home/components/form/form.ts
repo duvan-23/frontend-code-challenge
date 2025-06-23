@@ -8,8 +8,8 @@ import {
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { SubscriptionOption } from '../../../../shared/models/subscription-option.interface';
-import { SubscriptionType } from '../../../../shared/models/subscription-type.enum';
+import { SubscriptionOption } from '@shared/models/subscription-option.interface';
+import { SubscriptionType } from '@shared/models/subscription-type.enum';
 
 @Component({
   selector: 'app-form',
