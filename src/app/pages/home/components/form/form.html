@@ -1,5 +1,5 @@
 <div class="min-h-[4.0rem]">
-  <ng-container *ngIf="!showSummaryErrors(); else errorMsg">
+  <ng-container *ngIf="!showSummaryErrors() || form.valid; else errorMsg">
     <p class="text-sm text-gray-600 leading-relaxed tracking-wide">
       Please enter the required information to process your request. Fields
       marked with <span class="text-red-500 font-bold">*</span> are mandatory.

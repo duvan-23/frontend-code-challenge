@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -26,7 +27,8 @@ export class Form {
     { value: 'advanced', label: 'Advanced' },
     { value: 'pro', label: 'Pro' }
   ];
-  
+  formChanges!: Subscription;
+
   ngOnInit() {
     this.form = this.fb.group({
       firstName: [''],
@@ -43,6 +45,30 @@ export class Form {
       ],
       csv: [null],
     });
+    this.subscribeToFormChanges();
+  }
+
+  subscribeToFormChanges() {
+    let previousValues = this.form.value;
+
+    this.formChanges = this.form.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((currentValues) => {
+        const changedField = Object.keys(currentValues).find(
+          (key) => currentValues[key] !== previousValues[key]
+        );
+
+        if (changedField) {
+          const control = this.form.get(changedField);
+          if (control && control.invalid) {
+            control.markAsTouched();
+          }
+        }
+        if (this.form.valid) {
+          this.showSummaryErrors.set(false);
+        }
+        previousValues = currentValues;
+      });
   }
 
   onFileChange(event: Event) {
@@ -56,8 +82,6 @@ export class Form {
     } else {
       this.fileName.set(null);
       this.form.patchValue({ csv: null });
-      this.form.get('csv')?.markAsDirty();
-      this.form.get('csv')?.markAsTouched();
     }
   }
 
@@ -81,10 +105,12 @@ export class Form {
         confirmButtonText: 'Yes, reset it!',
       }).then((result) => {
         if (result.isConfirmed) {
+          this.formChanges.unsubscribe();
           this.form.reset({ subscription: 'advanced' });
           this.fileName.set(null);
           this.showSummaryErrors.set(false);
           this.showPassword.set(false);
+          this.subscribeToFormChanges();
         }
       });
     }
@@ -104,8 +130,14 @@ export class Form {
   getPasswordErrorMessage(): string {
     const password = this.form.get('password');
     if (password?.hasError('required')) return 'Password is required.';
-    if (password?.hasError('minlength')) return 'Password must be at least 8 characters.';
-    if (password?.hasError('pattern')) return 'Password must include a letter and a special character.';
+    if (password?.hasError('minlength'))
+      return 'Password must be at least 8 characters.';
+    if (password?.hasError('pattern'))
+      return 'Password must include a letter and a special character.';
     return '';
+  }
+
+  ngOnDestroy() {
+    this.formChanges?.unsubscribe();
   }
 }
