@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CsvPreview } from './csv-preview';
+import { Summary } from './summary';
 
 describe('CsvPreview', () => {
-  let component: CsvPreview;
-  let fixture: ComponentFixture<CsvPreview>;
+  let component: Summary;
+  let fixture: ComponentFixture<Summary>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CsvPreview]
+      imports: [Summary]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CsvPreview);
+    fixture = TestBed.createComponent(Summary);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
