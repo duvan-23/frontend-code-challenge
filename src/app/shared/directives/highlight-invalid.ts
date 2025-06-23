@@ -17,18 +17,12 @@ export class HighlightInvalid {
       if (isInvalid) {
         this.renderer.setStyle(
           this.element.nativeElement,
-          'border',
-          '2px solid #f87171'
-        );
-        this.renderer.setStyle(
-          this.element.nativeElement,
-          'borderRadius',
-          '0.375rem'
+          'borderColor',
+          '#f87171'
         );
         this.renderer.setStyle(this.element.nativeElement, 'boxShadow', 'none');
       } else {
-        this.renderer.removeStyle(this.element.nativeElement, 'border');
-        this.renderer.removeStyle(this.element.nativeElement, 'borderRadius');
+        this.renderer.removeStyle(this.element.nativeElement, 'borderColor');
         this.renderer.removeStyle(this.element.nativeElement, 'boxShadow');
       }
     });
