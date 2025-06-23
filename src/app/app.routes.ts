@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
-import { CsvPreview } from './pages/csv-preview/csv-preview';
+import { Summary } from './pages/summary/summary';
 import { Layout } from './layout/layout';
 
 export const routes: Routes = [
@@ -9,7 +9,7 @@ export const routes: Routes = [
     component: Layout,
     children: [
       { path: '', component: Home },
-      { path: 'csv-preview', component: CsvPreview },
+      { path: 'summary', component: Summary },
     ],
   },
   { path: '**', redirectTo: '' },

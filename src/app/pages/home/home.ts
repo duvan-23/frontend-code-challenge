@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DynamicField } from '@shared/models/dynamic-field.interface';
 import { Validators } from '@angular/forms';
 import { SubscriptionType } from '@shared/models/subscription-type.enum';
 import { SubscriptionOption } from '@shared/models/subscription-option.interface';
 import { DynamicForm } from '@shared/components/dynamic-form/dynamic-form';
+import { SessionStorage } from '@shared/services/session-storage';
+import { FileConvert } from '@shared/utils/file-convert';
+import { Crypto } from '@shared/utils/crypto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +16,8 @@ import { DynamicForm } from '@shared/components/dynamic-form/dynamic-form';
   styleUrl: './home.css'
 })
 export class Home {
-
+  private sessionStorageService = inject(SessionStorage);
+  router= inject(Router);
   subscriptionOptions: SubscriptionOption[] = [
     { value: SubscriptionType.Basic, label: 'Basic' },
     { value: SubscriptionType.Advanced, label: 'Advanced' },
@@ -78,7 +83,15 @@ export class Home {
     },
   ];
 
-  handleSubmit(formData: any) {
-    console.log('Form submitted:', formData);
+  async handleSubmit(formData: any) {
+    if(formData.csv){
+      formData.csv = await FileConvert.fileToBase64(formData.csv);
+    }
+  
+    formData.password = Crypto.encrypt(formData.password);
+    this.sessionStorageService.setItem('formData', formData);
+    this.router.navigate(['/summary']);
+
   }
+
 }
