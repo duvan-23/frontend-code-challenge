@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { SubscriptionOption } from '../../../../shared/models/subscription-option.interface';
+import { SubscriptionType } from '../../../../shared/models/subscription-type.enum';
 
 @Component({
   selector: 'app-form',
@@ -22,10 +24,10 @@ export class Form {
   showPassword = signal(false);
   passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
   fb = inject(FormBuilder);
-  subscriptionOptions = [
-    { value: 'basic', label: 'Basic' },
-    { value: 'advanced', label: 'Advanced' },
-    { value: 'pro', label: 'Pro' }
+  subscriptionOptions: SubscriptionOption[] = [
+    { value: SubscriptionType.Basic, label: 'Basic' },
+    { value: SubscriptionType.Advanced, label: 'Advanced' },
+    { value: SubscriptionType.Pro, label: 'Pro' },
   ];
   formChanges!: Subscription;
 
@@ -34,7 +36,7 @@ export class Form {
       firstName: [''],
       lastName: [''],
       email: ['', [Validators.required, Validators.email]],
-      subscription: ['advanced', Validators.required],
+      subscription: [SubscriptionType.Advanced, Validators.required],
       password: [
         '',
         [
