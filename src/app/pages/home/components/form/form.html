@@ -70,11 +70,12 @@
         class="form-input"
         name="email"
         autocomplete="off"
+        appHighlightInvalid
       />
-      <div class="text-red-500 text-sm min-h-[1.25rem]">
+      <div class="text-red-600 text-sm min-h-[1.25rem]">
         <p
           *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
-          class="text-red-500 text-sm"
+          class="text-red-600 text-sm"
         >
           {{ getEmailErrorMessage() }}
         </p>
@@ -110,6 +111,7 @@
           class="form-input pr-10 w-full"
           name="password-input"
           autocomplete="new-password"
+          appHighlightInvalid
         />
         <button
           type="button"
@@ -123,10 +125,10 @@
           ></i>
         </button>
       </div>
-      <div class="text-red-500 text-sm min-h-[2.50rem]">
+      <div class="text-red-600 text-sm min-h-[2.50rem]">
         <p
           *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
-          class="text-red-500 text-sm"
+          class="text-red-600 text-sm"
         >
           {{ getPasswordErrorMessage() }}
         </p>

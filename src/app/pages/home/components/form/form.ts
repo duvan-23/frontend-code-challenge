@@ -10,10 +10,10 @@ import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SubscriptionOption } from '@shared/models/subscription-option.interface';
 import { SubscriptionType } from '@shared/models/subscription-type.enum';
-
+import { HighlightInvalid } from '@shared/directives/highlight-invalid';
 @Component({
   selector: 'app-form',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HighlightInvalid ],
   templateUrl: './form.html',
   styleUrl: './form.css',
 })
