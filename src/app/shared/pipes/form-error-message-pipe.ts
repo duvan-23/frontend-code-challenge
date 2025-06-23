@@ -3,12 +3,15 @@ import { AbstractControl } from '@angular/forms';
 
 @Pipe({
   name: 'formErrorMessage',
-  pure: false
+  pure: false,
 })
 export class FormErrorMessagePipe implements PipeTransform {
-
-  transform(control: AbstractControl | null, fieldName?: string, extraMessage?: string): unknown {
-    if (!control || !control.errors ) return '';
+  transform(
+    control: AbstractControl | null,
+    fieldName?: string,
+    extraMessage?: string
+  ): unknown {
+    if (!control || !control.errors) return '';
 
     const errors = control.errors;
 
@@ -24,9 +27,9 @@ export class FormErrorMessagePipe implements PipeTransform {
       const { requiredLength } = errors['maxlength'];
       return `${name} must be at most ${requiredLength} characters.`;
     }
-    if (errors['pattern']) return `${name} must include ${extraMessage ? ' ' + extraMessage : ''}`;
+    if (errors['pattern'])
+      return `${name} must include ${extraMessage ? ' ' + extraMessage : ''}`;
 
     return `${name} is invalid.`;
   }
-
 }

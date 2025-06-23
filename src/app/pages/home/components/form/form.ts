@@ -14,7 +14,12 @@ import { HighlightInvalid } from '@shared/directives/highlight-invalid';
 import { FormErrorMessagePipe } from '@shared/pipes/form-error-message-pipe';
 @Component({
   selector: 'app-form',
-  imports: [CommonModule, ReactiveFormsModule, HighlightInvalid, FormErrorMessagePipe ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HighlightInvalid,
+    FormErrorMessagePipe,
+  ],
   templateUrl: './form.html',
   styleUrl: './form.css',
 })
