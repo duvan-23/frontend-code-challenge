@@ -171,8 +171,16 @@
     </button>
     <button
       type="button"
+      [title]="form.dirty ? '' : 'Make changes to enable this'"
+      [disabled]="!form.dirty"
       (click)="onClear()"
-      class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1.5 rounded-md transition hover:scale-105 mx-3"
+      [ngClass]="{
+        'bg-pink-500 hover:bg-pink-600 text-white':
+          form.dirty,
+        'bg-gray-400 text-gray-800': !form.dirty,
+        'transform transition hover:scale-105': form.dirty,
+      }"
+      class="  px-4 py-1.5 rounded-md  mx-3"
     >
       Clear
     </button>
