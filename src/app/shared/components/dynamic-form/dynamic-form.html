@@ -1,0 +1,170 @@
+<div class="min-h-[4.0rem] w-full">
+  <ng-container *ngIf="!showSummaryErrors() || form.valid; else errorMsg">
+    <p class="text-sm text-gray-600 leading-relaxed tracking-wide">
+      Please enter the required information to process your request. Fields
+      marked with <span class="text-red-500 font-bold">*</span> are mandatory.
+    </p>
+  </ng-container>
+  <ng-template #errorMsg>
+    <div
+      class="min-w-full bg-red-100 text-red-700 p-2 rounded mb-2 border border-red-300 text-sm"
+    >
+      <ul class="list-none pl-4">
+        <ng-container *ngFor="let field of fields">
+          <li
+            *ngIf="form.get(field.name)?.invalid"
+            class="flex items-start gap-2 w-full"
+          >
+            <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
+            {{ form.get(field.name) | formErrorMessage: field.label ||
+            field.name : field.patternHint }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </ng-template>
+</div>
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="space-y-2"
+  autocomplete="off"
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ng-container *ngFor="let field of fields">
+      <!-- Text Input || Email Input  || Select-->
+      <div *ngIf="field.type !== 'file' && field.type !== 'password'">
+        <label
+          [for]="field.name"
+          class="text-sm font-medium text-gray-700 mb-0.5 block"
+        >
+          {{ field.label || field.name }}
+          <span *ngIf="field.required" class="text-red-500 font-bold">*</span>
+        </label>
+
+        <input
+          *ngIf="field.type === 'text' || field.type === 'email'"
+          [formControlName]="field.name"
+          [id]="field.name"
+          [type]="field.type"
+          class="form-input"
+          [autocomplete]="field.autocomplete || 'off'"
+          appHighlightInvalid
+        />
+
+        <select
+          *ngIf="field.type === 'select'"
+          [formControlName]="field.name"
+          [id]="field.name"
+          class="form-input"
+        >
+          <option *ngFor="let option of field.options" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+
+        <div class="text-red-600 text-sm min-h-[1.25rem]">
+          <p
+            *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid"
+          >
+            {{ form.get(field.name) | formErrorMessage: field.label ||
+            field.name : field.patternHint }}
+          </p>
+        </div>
+      </div>
+      <!-- Password Input-->
+      <div *ngIf="field.type == 'password'">
+        <label
+          [for]="field.name"
+          class="text-sm font-medium text-gray-700 mb-0.5 block"
+        >
+          {{ field.label || field.name }}
+          <span *ngIf="field.required" class="text-red-500 font-bold">*</span>
+        </label>
+
+        <div class="relative">
+          <input
+            [formControlName]="field.name"
+            [id]="field.name"
+            [type]="showPassword() ? 'text' : field.type"
+            class="form-input pr-10 w-full"
+            [autocomplete]="field.autocomplete || 'new-password'"
+            appHighlightInvalid
+          />
+          <button
+            type="button"
+            (click)="togglePassword()"
+            class="absolute inset-y-0 right-2 flex items-center text-gray-600"
+            tabindex="-1"
+          >
+            <i
+              class="fas"
+              [ngClass]="showPassword() ? 'fa-eye' : 'fa-eye-slash'"
+            ></i>
+          </button>
+        </div>
+
+        <div class="text-red-600 text-sm min-h-[2.80rem]">
+          <p
+            *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid"
+          >
+            {{ form.get(field.name) | formErrorMessage: field.label ||
+            field.name : field.patternHint }}
+          </p>
+        </div>
+      </div>
+
+      <!-- File Input -->
+      <div *ngIf="field.type === 'file'">
+        <label
+          [for]="field.name"
+          class="text-sm font-medium text-gray-700 mb-1 block"
+        >
+          {{ field.label || field.name }}
+        </label>
+
+        <input
+          type="file"
+          [id]="field.name"
+          (change)="onFileChange($event, field.name)"
+          [accept]="field.fileAccept || '.csv'"
+          class="hidden"
+        />
+        <div class="flex flex-col items-center gap-1">
+          <label
+            [for]="field.name"
+            class="inline-flex items-center gap-2 cursor-pointer bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition hover:scale-105"
+          >
+            <i class="fas fa-upload text-white"></i>
+            {{ fileName() ? 'Change File' : 'Select File' }}
+          </label>
+          <p class="text-sm text-gray-600">
+            {{ fileName() || 'No file selected' }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="flex justify-center pt-4">
+    <button
+      type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105 mx-3"
+    >
+      Submit
+    </button>
+    <button
+      type="button"
+      [disabled]="!form.dirty"
+      (click)="onClear()"
+      class="px-4 py-1.5 mx-3 rounded-md transition"
+      [ngClass]="{
+        'bg-pink-500 hover:bg-pink-600 text-white': form.dirty,
+        'bg-gray-400 text-gray-800': !form.dirty
+      }"
+    >
+      Clear
+    </button>
+  </div>
+</form>
