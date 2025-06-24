@@ -10,6 +10,7 @@ import {
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HighlightInvalid } from '@shared/directives/highlight-invalid';
 import { DynamicField } from '@shared/models/dynamic-field.interface';
+import { Csv } from '@shared/models/summary.interface';
 import { FormErrorMessagePipe } from '@shared/pipes/form-error-message-pipe';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -27,6 +28,7 @@ import Swal from 'sweetalert2';
 })
 export class DynamicForm {
   @Input() fields: DynamicField[] = [];
+  @Input() uploadFile?: Csv;
   @Output() formSubmitted = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -36,8 +38,11 @@ export class DynamicForm {
   fb = inject(FormBuilder);
   formChanges!: Subscription;
   defaultFormValues!: FormGroup;
-  
+
   ngOnInit() {
+    if (this.uploadFile && this.uploadFile.name) {
+      this.fileName.set(this.uploadFile.name);
+    }
     const group: Record<string, any> = {};
     this.fields.forEach((field) => {
       group[field.name] = [field.defaultValue, field.validators || []];
