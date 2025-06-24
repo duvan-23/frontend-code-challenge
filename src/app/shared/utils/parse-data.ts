@@ -1,18 +1,12 @@
+import * as Papa from 'papaparse';
 export class ParseData {
-
-  static parseCSV(csv: string): any[] {
-    const [headerLine, ...lines] = csv.split('\n').map((line) => line.trim());
-    const headers = headerLine.split(',');
-
-    return lines
-      .filter((line) => line)
-      .map((line) => {
-        const values = line.split(',');
-        return headers.reduce((obj, key, i) => {
-          obj[key] = values[i];
-          return obj;
-        }, {} as Record<string, string>);
+  static parseCSV(base64: string): any[] {
+    const csvContent = atob(base64.split(',')[1]);
+    const parsed = Papa.parse(csvContent.trim(), {
+      header: true,        // Or false if you don’t want to use first row as headers
+      skipEmptyLines: true,
+      dynamicTyping: true, 
     });
+    return parsed.data;
   }
-  
 }
