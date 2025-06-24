@@ -1,0 +1,18 @@
+<div class="w-[28rem] p-4 relative bg-white rounded-xl shadow-lg">
+  <button
+    class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl"
+    (click)="close()"
+    aria-label="Close"
+  >
+    &times;
+  </button>
+
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">Edit Information</h2>
+
+  <app-dynamic-form
+      class="w-full"
+      [fields]="fields"
+      [uploadFile]="uploadFile"
+      (formSubmitted)="handleSubmit($event)"
+    ></app-dynamic-form>
+</div>
