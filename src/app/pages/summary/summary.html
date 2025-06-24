@@ -1,1 +1,62 @@
-<p>csv-preview works!</p>
+<div
+  class="w-full min-h-screen mx-auto mt-8 bg-white shadow-lg rounded-2xl p-8 border border-gray-200"
+>
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 tracking-tight">
+    Submitted Information
+    <button
+      type="button"
+      (click)="editForm()"
+      title="Edit submitted information"
+      class="inline-flex items-center gap-1 bg-blue-600 ml-1 text-white px-2 py-2 rounded-md hover:bg-blue-700 cursor-pointer text-sm hover:scale-110"
+    >
+      <i class="fas fa-pencil"></i>
+    </button>
+  </h2>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4 text-sm text-gray-800"
+  >
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">First Name</span>{{
+        (dataSummary.firstName| titlecase ) || '' }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">Last Name</span>{{
+        (dataSummary.lastName| titlecase ) || '' }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">Email</span>{{
+        dataSummary.email }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">Subscription</span>{{
+        dataSummary.subscription }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">Password</span>{{
+        dataSummary.password }}
+      </p>
+    </div>
+    <div>
+      <p>
+        <span class="block font-semibold text-gray-500">File Name</span>{{
+        dataSummary.csv?.name || '' }}
+      </p>
+    </div>
+  </div>
+  <hr class="h-px my-5 bg-gray-300 border-0 dark:bg-gray-700" />
+  <app-dynamic-csv-table
+    class="w-full"
+    [title]="tableTitle"
+    [dataBase64]="tableInfo"
+  ></app-dynamic-csv-table>
+</div>
