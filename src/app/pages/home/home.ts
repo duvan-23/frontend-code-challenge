@@ -85,7 +85,10 @@ export class Home {
 
   async handleSubmit(formData: any) {
     if(formData.csv){
-      formData.csv = await FileConvert.fileToBase64(formData.csv);
+      formData.csv = {
+        name: formData.csv.name,
+        content:await FileConvert.fileToBase64(formData.csv)
+      };
     }
   
     formData.password = Crypto.encrypt(formData.password);
