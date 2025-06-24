@@ -1,0 +1,93 @@
+<div
+  *ngIf="showTable"
+  class="w-full mt-10 overflow-hidden rounded-xl border border-gray-200 shadow"
+>
+  <h2 class="text-xl font-semibold text-gray-800 px-6 pt-4 pb-2">
+    {{ title }}
+  </h2>
+  <div class="px-6 pt-4 flex justify-end mb-2">
+    <div class="relative w-full md:w-1/3">
+      <div
+        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+      >
+        <i class="fas fa-search text-gray-400"></i>
+      </div>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search..."
+        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+      />
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table
+      class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700"
+    >
+      <thead class="bg-gray-100">
+        <tr>
+          <th
+            *ngFor="let header of csvHeaders"
+            class="px-4 py-2 font-semibold whitespace-nowrap"
+          >
+            {{ header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngIf="pagedCsvData.length === 0">
+          <td
+            [attr.colspan]="csvHeaders.length"
+            class="px-4 py-4 text-center text-gray-500"
+          >
+            No data available.
+          </td>
+        </tr>
+        <tr *ngFor="let row of pagedCsvData">
+          <td
+            *ngFor="let header of csvHeaders"
+            class="px-4 py-2 whitespace-nowrap"
+          >
+            {{ row[header] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    class="flex items-center justify-between px-4 py-3 bg-gray-50 border-t text-sm"
+  >
+    <button
+      class="px-3 py-1 border rounded disabled:opacity-50"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span class="text-gray-600">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+    <button
+      class="px-3 py-1 border rounded disabled:opacity-50"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Next
+    </button>
+  </div>
+</div>
+<div
+  *ngIf="!showTable"
+  class="w-full mt-10 p-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg shadow-md flex items-start gap-4"
+>
+  <i class="fas fa-info-circle text-2xl pt-1"></i>
+  <div>
+    <h3 class="text-lg font-semibold mb-1">No CSV File Loaded</h3>
+    <p class="text-sm">
+      Please upload a CSV file to see the data displayed in this section.
+    </p>
+  </div>
+</div>
