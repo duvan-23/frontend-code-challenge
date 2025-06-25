@@ -27,8 +27,9 @@ import Swal from 'sweetalert2';
   styleUrl: './dynamic-form.css',
 })
 export class DynamicForm {
-  @Input() fields: DynamicField[] = [];
+  @Input({ required: true }) fields: DynamicField[] = [];
   @Input() uploadFile?: Csv;
+  @Input() edit?= false;
   @Output() formSubmitted = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -40,9 +41,7 @@ export class DynamicForm {
   defaultFormValues!: FormGroup;
 
   ngOnInit() {
-    if (this.uploadFile && this.uploadFile.name) {
-      this.fileName.set(this.uploadFile.name);
-    }
+    this.setFileName();
     const group: Record<string, any> = {};
     this.fields.forEach((field) => {
       group[field.name] = [field.defaultValue, field.validators || []];
@@ -50,7 +49,12 @@ export class DynamicForm {
     this.form = this.fb.group(group);
     this.defaultFormValues = this.form.getRawValue();
     this.subscribeToFormChanges();
-    console.log(this.defaultFormValues);
+  }
+
+  setFileName(){
+    if (this.uploadFile && this.uploadFile.name) {
+      this.fileName.set(this.uploadFile.name);
+    }
   }
 
   subscribeToFormChanges() {
@@ -116,6 +120,7 @@ export class DynamicForm {
           this.showSummaryErrors.set(false);
           this.showPassword.set(false);
           this.subscribeToFormChanges();
+          this.setFileName();
         }
       });
     }
