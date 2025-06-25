@@ -1,8 +1,20 @@
-<header class="shadow-md px-6 py-4 flex items-center gap-4">
-  <img
-    src="logo.webp"
-    alt="Logo"
-    class="w-10 h-10 object-contain transition-transform duration-300 hover:scale-105 rounded-md"
-  />
-  <h1 class="text-xl font-semibold text-gray-800">My App Title</h1>
+<header class="shadow-md px-6 py-4 flex items-center justify-between">
+  <div class="flex items-center gap-4 mx-2">
+    <img
+      src="logo.webp"
+      alt="Logo"
+      class="w-10 h-10 object-contain transition-transform duration-300 hover:scale-105 rounded-md"
+    />
+    <h1 class="text-xl font-semibold text-gray-800">My App Title</h1>
+  </div>
+
+  <ng-container>
+    <button
+      (click)="logout()"
+      *ngIf="showLogOutButton()"
+      class="px-4 py-2 text-sm font-medium text-white bg-[#ec4899] rounded-md hover:bg-[#f33f7b] hover:scale-110 mx-2"
+    >
+      Log out
+    </button>
+  </ng-container>
 </header>
