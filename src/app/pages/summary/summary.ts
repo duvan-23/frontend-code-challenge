@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SummaryData } from '@shared/models/summary.interface';
 import { SessionStorage } from '@shared/services/session-storage';
-import { ParseData } from '@shared/utils/parse-data';
 import { Crypto } from '@shared/utils/crypto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +20,7 @@ export class Summary {
   private dialog = inject(MatDialog);
   dataSummary!: SummaryData;
   tableTitle = 'CSV information';
-  tableInfo = '';
+  tableInfo = signal('');
   
   ngOnInit() {
     this.readSummary();
@@ -33,7 +32,7 @@ export class Summary {
 
     if (this.dataSummary) {
       if (this.dataSummary.csv && this.dataSummary.csv.content) {
-        this.tableInfo = this.dataSummary.csv.content;
+        this.tableInfo.set(this.dataSummary.csv.content);
       }
     }
   }
@@ -44,7 +43,7 @@ export class Summary {
       data: this.dataSummary,
     });
     dialogRef.afterClosed().subscribe(async (result) => {
-      if (result.email) {
+      if (result && result.email) {
         if (result.csv) {
           result.csv = {
             name: result.csv.name,
