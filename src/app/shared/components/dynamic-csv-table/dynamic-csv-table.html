@@ -1,5 +1,5 @@
 <div
-  *ngIf="showTable"
+  *ngIf="showTable()"
   class="w-full mt-10 overflow-hidden rounded-xl border border-gray-200 shadow"
 >
   <h2 class="text-xl font-semibold text-gray-800 px-6 pt-4 pb-2">
@@ -14,40 +14,40 @@
       </div>
       <input
         type="text"
-        [(ngModel)]="searchTerm"
-        (input)="onSearchChange()"
+        [value]="searchTerm()"
+        (input)="onSearchChange($event)"
         placeholder="Search..."
-        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+        class="w-full pl-10 pr-4 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
       />
     </div>
   </div>
 
   <div class="overflow-x-auto">
     <table
-      class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-700"
+      class="min-w-full divide-y divide-gray-200 text-sm text-left text-gray-800"
     >
-      <thead class="bg-gray-100">
+      <thead class="bg-gray-300">
         <tr>
           <th
-            *ngFor="let header of csvHeaders"
+            *ngFor="let header of csvHeaders()"
             class="px-4 py-2 font-semibold whitespace-nowrap"
           >
             {{ header }}
           </th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100">
-        <tr *ngIf="pagedCsvData.length === 0">
+      <tbody class="divide-y divide-gray-300">
+        <tr *ngIf="pagedCsvData().length === 0">
           <td
-            [attr.colspan]="csvHeaders.length"
+            [attr.colspan]="csvHeaders().length"
             class="px-4 py-4 text-center text-gray-500"
           >
             No data available.
           </td>
         </tr>
-        <tr *ngFor="let row of pagedCsvData">
+        <tr *ngFor="let row of pagedCsvData()">
           <td
-            *ngFor="let header of csvHeaders"
+            *ngFor="let header of csvHeaders()"
             class="px-4 py-2 whitespace-nowrap"
           >
             {{ row[header] }}
@@ -63,24 +63,24 @@
     <button
       class="px-3 py-1 border rounded disabled:opacity-50"
       (click)="previousPage()"
-      [disabled]="currentPage === 1"
+      [disabled]="currentPage() === 1"
     >
       Previous
     </button>
     <span class="text-gray-600">
-      Page {{ currentPage }} of {{ totalPages }}
+      Page {{ currentPage() }} of {{ totalPages() }}
     </span>
     <button
       class="px-3 py-1 border rounded disabled:opacity-50"
       (click)="nextPage()"
-      [disabled]="currentPage === totalPages"
+      [disabled]="currentPage() === totalPages()"
     >
       Next
     </button>
   </div>
 </div>
 <div
-  *ngIf="!showTable"
+  *ngIf="!showTable()"
   class="w-full mt-10 p-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg shadow-md flex items-start gap-4"
 >
   <i class="fas fa-info-circle text-2xl pt-1"></i>
