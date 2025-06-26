@@ -1,59 +1,115 @@
 # FrontendCodeChallenge
+📌 Angular Technical Test – Form + CSV Upload Demo
+📄 Description
+This is a sample Angular application developed as part of a technical test. It showcases core Angular features and UI/UX best practices, including:
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+✅ Reactive Forms with live validation
 
-## Development server
+📤 CSV file upload and parsing entirely in the frontend
 
-To start a local development server, run:
+♻️ Dynamic form behavior (reset with confirmation)
 
-```bash
+💾 Temporary persistence via sessionStorage
+
+📱 Responsive UI using Tailwind CSS
+
+🔐 Environment-based config (e.g., encryption key usage)
+
+🚀 Features
+🧾 Form Includes:
+First Name and Last Name
+
+Email (required, validated format)
+
+Subscription plan dropdown (Basic, Advanced [default], Pro)
+
+Password field (must be:
+
+≥ 8 characters
+
+contain at least 1 letter
+
+contain at least 1 special character)
+
+CSV file input (parsed and displayed)
+
+Submit and Clear buttons
+
+💬 User Feedback:
+Real-time validation hints below each field
+
+Cumulative error summary at top after form submission
+
+Debounced validation (runs after user stops typing)
+
+🧠 Behavior:
+CSV is parsed entirely on the frontend using papaparse
+
+Parsed CSV is shown in a dynamic table on another page
+
+Clicking "Clear" prompts a confirmation modal
+
+Form values persist in sessionStorage until submitted
+
+Uses Angular signals, effects, and custom directives for enhanced reactivity and modularity
+
+🛠️ Tech Stack
+
+⚙️ Angular v20
+🎨 Tailwind CSS
+🔄 RxJS
+⛓ TypeScript
+📦 papaparse for CSV parsing
+
+
+
+🔐 Security & Configuration
+Sensitive values like the encryption key are stored in environment.ts and environment.prod.ts
+
+Password is encrypted before saving in sessionStorage
+
+sessionStorage is cleared on logout or saved after submission
+
+📂 Project Structure
+src/
+├── app/
+│   ├── core/             # Global guards
+│   ├── layout/           # Header, site layout
+│   ├── pages/            # Main pages (home, summary)
+│   ├── shared/
+│   │   ├── components/   # Reusable UI parts
+│   │   ├── directives/   # Custom validators or behaviors
+│   │   ├── models/       # Interfaces and types
+│   │   ├── pipes/        # Custom pipes (e.g. error handling)
+│   │   └── services/     # Storage
+│   │   └── utils/        # Helpers
+│   └── environments/
+│       ├── environment.ts
+│       └── environment.prod.ts
+
+▶️ Getting Started
+npm install
 ng serve
-```
+Then visit http://localhost:4200 in your browser.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+📱 Responsive Design
+Built with Tailwind CSS:
 
-## Code scaffolding
+Mobile-first approach
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Responsive grid and utility classes
 
-```bash
-ng generate component component-name
-```
+Smooth transitions and modern UI/UX
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+min-h-screen, gap-*, text-wrap, and flex-wrap to enhance accessibility and layout stability
 
-```bash
-ng generate --help
-```
+✅ Additional Notes
+All data handling (form + CSV) is done 100% client-side
 
-## Building
+CSV parsing is fast and accurate with papaparse
 
-To build the project run:
+Form UI includes progressive enhancement, feedback states, and accessibility support
 
-```bash
-ng build
-```
+Includes unit testing for critical components (guards, service logic, and interaction behavior)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Styled with clean and consistent Tailwind tokens like text-sm, rounded, hover:bg-*, and shadow-md
