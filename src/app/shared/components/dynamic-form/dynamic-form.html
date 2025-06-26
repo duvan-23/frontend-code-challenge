@@ -121,8 +121,9 @@
 
         <input
           type="file"
+          #fileInput
           [id]="field.name"
-          (change)="onFileChange($event, field.name)"
+          (change)="onFileChange($event, field.name, fileInput)"
           [accept]="field.fileAccept || '.csv'"
           class="hidden"
         />
@@ -142,10 +143,10 @@
     </ng-container>
   </div>
 
-  <div class="flex justify-center pt-4">
+  <div class="flex justify-center pt-4 flex-wrap items-center">
     <button
       (click)="onSubmit()"
-      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105 mx-3"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105 mx-3 my-2"
     >
       Submit
     </button>
@@ -153,7 +154,7 @@
       type="button"
       [disabled]="!form.dirty"
       (click)="onClear()"
-      class="px-4 py-1.5 mx-3 rounded-md transition"
+      class="px-4 py-1.5 mx-3 rounded-md transition my-2 "
       [ngClass]="{
         'bg-pink-500 hover:bg-pink-600 text-white hover:scale-105': form.dirty,
         'bg-gray-400 text-gray-800': !form.dirty

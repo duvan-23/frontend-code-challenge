@@ -88,7 +88,7 @@ export class DynamicForm {
     }
   }
 
-  onFileChange(event: Event, fieldName: string) {
+  onFileChange(event: Event, fieldName: string, inputElement: HTMLInputElement) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput?.files?.[0];
     if (file) {
@@ -100,6 +100,7 @@ export class DynamicForm {
       this.fileName.set(null);
       this.form.patchValue({ [fieldName]: null });
     }
+    inputElement.value = '';
   }
 
   onClear() {
