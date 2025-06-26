@@ -81,9 +81,6 @@ src/
     ├── environment.ts
     └── environment.prod.ts
 ▶️ Getting Started
-bash
-Copy
-Edit
 npm install
 ng serve
 Then visit: http://localhost:4200
