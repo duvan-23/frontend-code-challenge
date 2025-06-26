@@ -1,20 +1,21 @@
-<header class="shadow-md px-6 py-4 flex items-center justify-between">
-  <div class="flex items-center gap-4 mx-2">
+<header class="shadow-md px-6 py-4 flex items-center justify-between flex-wrap md:flex-row">
+  <div class="flex items-center gap-4 mx-2 flex-wrap">
     <img
       src="logo.webp"
       alt="Logo"
-      class="w-10 h-10 object-contain transition-transform duration-300 hover:scale-105 rounded-md"
+      class="w-6 h-6 md:w-10 md:h-10 object-contain transition-transform duration-300 hover:scale-105 rounded-md mt-1 md:mt-0"
     />
-    <h1 class="text-slate-100 font-medium text-2xl">Form & CSV Viewer</h1>
+    <h1 class="text-slate-100 font-medium text-2xl mt-2 md:mt-0">Form & CSV Viewer</h1>
   </div>
 
   <ng-container>
     <button
       (click)="logout()"
       *ngIf="showLogOutButton()"
-      class="px-4 py-2 text-sm font-medium text-white bg-[#ec4899] rounded-md hover:bg-[#f33f7b] hover:scale-110 mx-2"
+      class="px-4 py-2 text-xs md:text-sm font-medium text-white bg-[#ec4899] rounded-md hover:bg-[#f33f7b] hover:scale-110 mx-2 mt-2 md:mt-0"
     >
-      Log out
+      <span class="hidden md:block">Log out</span>
+      <i class="fa-solid fa-right-from-bracket block md:hidden"></i>
     </button>
   </ng-container>
 </header>

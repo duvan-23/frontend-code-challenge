@@ -40,6 +40,7 @@ export class Summary {
   editForm() {
     const dialogRef = this.dialog.open(EditSummary, {
       width: '600px',
+      maxHeight: '100vh',
       data: this.dataSummary,
     });
     dialogRef.afterClosed().subscribe(async (result) => {

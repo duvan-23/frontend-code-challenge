@@ -1,13 +1,14 @@
-<div class="w-full p-8 relative bg-white shadow-lg">
-  <button
-    class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-3xl pr-4"
-    (click)="close()"
-    aria-label="Close"
-  >
-    &times;
-  </button>
-
-  <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Edit Information</h2>
+<div class="w-full p-8 bg-white shadow-lg overflow-auto">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-semibold text-gray-800 text-center">Edit Information</h2>
+    <button
+      class=" text-gray-500 hover:text-red-600 text-3xl ml-auto"
+      (click)="close()"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  </div>
 
   <app-dynamic-form
       class="w-full"
