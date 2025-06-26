@@ -12,8 +12,7 @@ import { ParseData } from '@shared/utils/parse-data';
 @Component({
   selector: 'app-dynamic-csv-table',
   imports: [CommonModule, FormsModule],
-  templateUrl: './dynamic-csv-table.html',
-  styleUrl: './dynamic-csv-table.css',
+  templateUrl: './dynamic-csv-table.html'
 })
 export class DynamicCsvTable {
   @Input() dataBase64: string = '';

@@ -12,8 +12,7 @@ import { FileConvert } from '@shared/utils/file-convert';
 @Component({
   selector: 'app-summary',
   imports: [CommonModule, FormsModule, DynamicCsvTable],
-  templateUrl: './summary.html',
-  styleUrl: './summary.css',
+  templateUrl: './summary.html'
 })
 export class Summary {
   private sessionStorageService = inject(SessionStorage);

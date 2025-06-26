@@ -10,8 +10,7 @@ import { Csv, SummaryData } from '@shared/models/summary.interface';
 @Component({
   selector: 'app-edit-summary',
   imports: [DynamicForm],
-  templateUrl: './edit-summary.html',
-  styleUrl: './edit-summary.css',
+  templateUrl: './edit-summary.html'
 })
 export class EditSummary {
   private dialogRef = inject(MatDialogRef<EditSummary>);

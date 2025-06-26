@@ -8,8 +8,7 @@ import { filter, Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   imports: [CommonModule],
-  templateUrl: './header.html',
-  styleUrl: './header.css'
+  templateUrl: './header.html'
 })
 export class Header {
   showLogOutButton = signal(false);

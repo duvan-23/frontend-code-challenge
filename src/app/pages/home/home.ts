@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   imports: [DynamicForm],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  templateUrl: './home.html'
 })
 export class Home {
   private sessionStorageService = inject(SessionStorage);
