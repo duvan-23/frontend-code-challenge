@@ -7,7 +7,7 @@
   </ng-container>
   <ng-template #errorMsg>
     <div
-      class="min-w-full bg-red-100 text-red-700 p-2 rounded mb-2 border border-red-300 text-sm"
+      class="min-w-full  bg-red-50 text-red-800 border border-red-300 rounded-lg p-4 mb-4 shadow-sm animate-fade-in"
     >
       <ul class="list-none pl-4">
         <ng-container *ngFor="let field of fields">
@@ -155,7 +155,7 @@
       (click)="onClear()"
       class="px-4 py-1.5 mx-3 rounded-md transition"
       [ngClass]="{
-        'bg-pink-500 hover:bg-pink-600 text-white': form.dirty,
+        'bg-pink-500 hover:bg-pink-600 text-white hover:scale-105': form.dirty,
         'bg-gray-400 text-gray-800': !form.dirty
       }"
     >

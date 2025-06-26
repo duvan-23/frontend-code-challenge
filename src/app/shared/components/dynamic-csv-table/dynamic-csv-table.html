@@ -2,7 +2,7 @@
   *ngIf="showTable()"
   class="w-full mt-10 overflow-hidden rounded-xl border border-gray-200 shadow"
 >
-  <h2 class="text-xl font-semibold text-gray-800 px-6 pt-4 pb-2">
+  <h2 class="text-xl font-semibold text-gray-800 px-6 pt-4 pb-2 text-start tracking-wider mb-2">
     {{ title }}
   </h2>
   <div class="px-6 pt-4 flex justify-end mb-2">
@@ -45,7 +45,7 @@
             No data available.
           </td>
         </tr>
-        <tr *ngFor="let row of pagedCsvData()">
+        <tr *ngFor="let row of pagedCsvData()" class="hover:bg-gray-300 transition-colors">
           <td
             *ngFor="let header of csvHeaders()"
             class="px-4 py-2 whitespace-nowrap"
@@ -61,7 +61,7 @@
     class="flex items-center justify-between px-4 py-3 bg-gray-50 border-t text-sm"
   >
     <button
-      class="px-3 py-1 border rounded disabled:opacity-50"
+      class="px-4 py-2 border rounded disabled:opacity-50 text-white bg-blue-500 hover:bg-blue-600 transition"
       (click)="previousPage()"
       [disabled]="currentPage() === 1"
     >
@@ -71,7 +71,7 @@
       Page {{ currentPage() }} of {{ totalPages() }}
     </span>
     <button
-      class="px-3 py-1 border rounded disabled:opacity-50"
+      class="px-4 py-2 border rounded disabled:opacity-50 text-white bg-blue-500 hover:bg-blue-600 transition"
       (click)="nextPage()"
       [disabled]="currentPage() === totalPages()"
     >
@@ -81,12 +81,12 @@
 </div>
 <div
   *ngIf="!showTable()"
-  class="w-full mt-10 p-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-lg shadow-md flex items-start gap-4"
+  class="w-full mt-10 p-5 bg-yellow-100/80 border border-yellow-300 text-yellow-900 rounded-xl shadow-sm flex items-start gap-4 animate-fade-in"
 >
-  <i class="fas fa-info-circle text-2xl pt-1"></i>
+  <i class="fas fa-exclamation-triangle text-2xl text-yellow-600 pt-1"></i>
   <div>
-    <h3 class="text-lg font-semibold mb-1">No CSV File Loaded</h3>
-    <p class="text-sm">
+    <h3 class="text-base font-semibold mb-1 tracking-wide">No CSV File Loaded</h3>
+    <p class="text-sm text-yellow-800">
       Please upload a CSV file to see the data displayed in this section.
     </p>
   </div>
