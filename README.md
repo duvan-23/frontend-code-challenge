@@ -85,6 +85,9 @@ npm install
 ng serve
 Then visit: http://localhost:4200
 
+## Run in Production Mode
+npm run start:prod
+
 📱 Responsive Design
 Built with Tailwind CSS:
 
