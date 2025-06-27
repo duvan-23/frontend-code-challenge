@@ -36,9 +36,12 @@ export class DynamicCsvTable {
   // Parses CSV from base64 and initializes view
   private checkData() {
     if (this.dataBase64 != '') {
-      this.csvData.set(ParseData.parseCSV(this.dataBase64));
-      this.loadCsvData();
-      this.showTable.set(true);
+      let data = ParseData.parseCSV(this.dataBase64);
+      if(data && data.length>0){
+        this.csvData.set(data);
+        this.loadCsvData();
+        this.showTable.set(true);
+      }
     }
   }
 
