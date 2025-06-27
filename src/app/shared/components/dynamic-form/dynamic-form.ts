@@ -33,17 +33,18 @@ export class DynamicForm {
   @Input() edit? = false;
   @Output() formSubmitted = new EventEmitter<any>();
 
+  private readonly fb = inject(FormBuilder);
+  private formChanges!: Subscription;
+  private defaultFormValues!: FormGroup;
   form!: FormGroup;
   fileName = signal<string | null>(null);
   showSummaryErrors = signal(false);
   showPassword = signal(false);
-  fb = inject(FormBuilder);
-  formChanges!: Subscription;
-  defaultFormValues!: FormGroup;
   errorReady = signal<Record<string, ValidatorErrors | null>>({});
 
   ngOnInit() {
     this.setFileName();
+    // Build the form structure dynamically based on input fields
     const group: Record<string, any> = {};
     this.fields.forEach((field) => {
       group[field.name] = [field.defaultValue, field.validators || []];
@@ -53,13 +54,14 @@ export class DynamicForm {
     this.subscribeToFormChanges();
   }
 
-  setFileName() {
+  private setFileName() {
     if (this.uploadFile && this.uploadFile.name) {
       this.fileName.set(this.uploadFile.name);
     }
   }
 
-  subscribeToFormChanges() {
+  // Subscribe to form changes to track validation errors with debounce
+  private subscribeToFormChanges() {
     let previousValues = this.form.value;
 
     this.formChanges = this.form.valueChanges
@@ -108,6 +110,7 @@ export class DynamicForm {
     }
   }
 
+  // Handle file selection and validation
   onFileChange(
     event: Event,
     fieldName: string,
@@ -127,6 +130,7 @@ export class DynamicForm {
     inputElement.value = '';
   }
 
+  // Resets the form and related signals with confirmation
   onClear() {
     if (this.form.dirty) {
       Swal.fire({
@@ -152,10 +156,11 @@ export class DynamicForm {
     }
   }
 
+  // Utility to check if there are any errors in the form
   isErrorReadyEmpty() {
     return Object.keys(this.errorReady()).length === 0;
   }
-  
+
   togglePassword() {
     this.showPassword.update((value) => !value);
   }

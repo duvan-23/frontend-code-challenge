@@ -15,8 +15,9 @@ import { FileConvert } from '@shared/utils/file-convert';
   templateUrl: './summary.html'
 })
 export class Summary {
-  private sessionStorageService = inject(SessionStorage);
-  private dialog = inject(MatDialog);
+  private readonly sessionStorageService = inject(SessionStorage);
+  private readonly dialog = inject(MatDialog);
+
   dataSummary!: SummaryData;
   tableTitle = 'CSV information';
   tableInfo = signal('');
@@ -27,6 +28,7 @@ export class Summary {
 
   readSummary() {
     this.dataSummary = this.sessionStorageService.getItem<any>('formData');
+    // Decrypt password for display
     this.dataSummary.password = Crypto.decrypt(this.dataSummary.password);
 
     if (this.dataSummary) {
@@ -52,7 +54,7 @@ export class Summary {
         } else {
           result.csv = this.dataSummary.csv;
         }
-
+        // Encrypt password to save
         result.password = Crypto.encrypt(result.password);
         this.sessionStorageService.setItem('formData', result);
         this.readSummary();

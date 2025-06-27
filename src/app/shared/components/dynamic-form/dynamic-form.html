@@ -1,5 +1,7 @@
 <div class="min-h-[4.0rem] w-full">
-  <ng-container *ngIf="!showSummaryErrors()|| isErrorReadyEmpty(); else errorMsg">
+  <ng-container
+    *ngIf="!showSummaryErrors()|| isErrorReadyEmpty(); else errorMsg"
+  >
     <p class="text-sm text-gray-600 leading-relaxed tracking-wide">
       Please enter the required information to process your request. Fields
       marked with <span class="text-red-500 font-bold">*</span> are mandatory.
@@ -7,7 +9,7 @@
   </ng-container>
   <ng-template #errorMsg>
     <div
-      class="min-w-full  bg-red-50 text-red-800 border border-red-300 rounded-lg p-4 mb-4 shadow-sm animate-fade-in"
+      class="min-w-full bg-red-50 text-red-800 border border-red-300 rounded-lg p-4 mb-4 shadow-sm animate-fade-in"
     >
       <ul class="list-none pl-4">
         <ng-container *ngFor="let field of fields">
@@ -60,9 +62,7 @@
         </select>
 
         <div class="text-red-600 text-sm min-h-[1.25rem]">
-          <p
-            *ngIf="form.get(field.name)?.touched && errorReady()[field.name]"
-          >
+          <p *ngIf="form.get(field.name)?.touched && errorReady()[field.name]">
             {{ form.get(field.name) | formErrorMessage: field.label ||
             field.name : field.patternHint : errorReady()[field.name]}}
           </p>
@@ -101,9 +101,7 @@
         </div>
 
         <div class="text-red-600 text-sm min-h-[2.80rem]">
-          <p
-            *ngIf="form.get(field.name)?.touched && errorReady()[field.name]"
-          >
+          <p *ngIf="form.get(field.name)?.touched && errorReady()[field.name]">
             {{ form.get(field.name) | formErrorMessage: field.label ||
             field.name : field.patternHint : errorReady()[field.name]}}
           </p>
@@ -145,6 +143,7 @@
 
   <div class="flex justify-center pt-4 flex-wrap items-center">
     <button
+      type="button"
       (click)="onSubmit()"
       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition transform hover:scale-105 mx-3 my-2"
     >
@@ -154,7 +153,7 @@
       type="button"
       [disabled]="!form.dirty"
       (click)="onClear()"
-      class="px-4 py-1.5 mx-3 rounded-md transition my-2 "
+      class="px-4 py-1.5 mx-3 rounded-md transition my-2"
       [ngClass]="{
         'bg-pink-500 hover:bg-pink-600 text-white hover:scale-105': form.dirty,
         'bg-gray-400 text-gray-800': !form.dirty

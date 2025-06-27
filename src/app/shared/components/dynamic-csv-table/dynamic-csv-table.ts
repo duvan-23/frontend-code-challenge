@@ -23,7 +23,7 @@ export class DynamicCsvTable {
   pagedCsvData: WritableSignal<Record<string, any>[]> = signal([]);
   filteredCsvData: WritableSignal<Record<string, any>[]> = signal([]);
 
-  rowsPerPage = 10;
+  private readonly rowsPerPage = 10;
   currentPage = signal(1);
   totalPages = signal(1);
   searchTerm = signal('');
@@ -33,7 +33,8 @@ export class DynamicCsvTable {
     this.checkData();
   }
 
-  checkData() {
+  // Parses CSV from base64 and initializes view
+  private checkData() {
     if (this.dataBase64 != '') {
       this.csvData.set(ParseData.parseCSV(this.dataBase64));
       this.loadCsvData();
@@ -48,6 +49,7 @@ export class DynamicCsvTable {
     }
   }
 
+  // Initializes headers, pagination, and filtered data
   loadCsvData() {
     this.csvHeaders.set(Object.keys(this.csvData()[0] || {}));
     this.filteredCsvData.set(this.csvData());
@@ -56,6 +58,7 @@ export class DynamicCsvTable {
     this.updatePagedData();
   }
 
+  // Updates the visible page of data based on filters and current page
   updatePagedData() {
     const data = this.searchTerm() ? this.filteredCsvData() : this.csvData();
     const start = (this.currentPage() - 1) * this.rowsPerPage;
@@ -77,6 +80,7 @@ export class DynamicCsvTable {
     }
   }
 
+  // Filters CSV content based on search term
   onSearchChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchTerm.set(input.value);

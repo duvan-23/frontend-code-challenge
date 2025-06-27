@@ -17,20 +17,25 @@ export class EditSummary {
   readonly data: SummaryData = inject(MAT_DIALOG_DATA);
   uploadFile!: Csv;
 
-  subscriptionOptions: SubscriptionOption[] = [
+  // List of subscription options shown in the dropdown
+  private readonly subscriptionOptions: SubscriptionOption[] = [
     { value: SubscriptionType.Basic, label: 'Basic' },
     { value: SubscriptionType.Advanced, label: 'Advanced' },
     { value: SubscriptionType.Pro, label: 'Pro' },
   ];
-  passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
+
+  // Regex pattern for password: at least one letter, one special char, min length 8
+  private readonly passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
 
   fields!: DynamicField[];
 
   ngOnInit() {
+
     if (this.data.csv && this.data.csv.content && this.data.csv.name) {
       this.uploadFile = this.data.csv;
     }
 
+    // Form fields to be rendered dynamically
     this.fields = [
       {
         name: 'firstName',
@@ -89,11 +94,12 @@ export class EditSummary {
       },
     ];
   }
+
   close(): void {
     this.dialogRef.close();
   }
 
-  async handleSubmit(formData: any) {
+  handleSubmit(formData: any) {
     this.dialogRef.close(formData);
   }
 }

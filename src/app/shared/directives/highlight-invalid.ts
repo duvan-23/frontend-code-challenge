@@ -10,11 +10,13 @@ export class HighlightInvalid {
   private control = inject(NgControl);
 
   ngOnInit(): void {
+    // Listen for status changes to update styles based on validity
     this.control.statusChanges?.subscribe(() => {
       const isInvalid =
         this.control.invalid && (this.control.touched || this.control.dirty);
 
       if (isInvalid) {
+        // Highlight with red border if invalid
         this.renderer.setStyle(
           this.element.nativeElement,
           'borderColor',
@@ -22,6 +24,7 @@ export class HighlightInvalid {
         );
         this.renderer.setStyle(this.element.nativeElement, 'boxShadow', 'none');
       } else {
+        // Remove highlight if valid
         this.renderer.removeStyle(this.element.nativeElement, 'borderColor');
         this.renderer.removeStyle(this.element.nativeElement, 'boxShadow');
       }

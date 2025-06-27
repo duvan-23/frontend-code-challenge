@@ -23,7 +23,7 @@ export class SessionStorage {
     }
   }
 
-  removeItem(key: string) {
+  removeItem(key: string): void {
     sessionStorage.removeItem(key);
   }
 

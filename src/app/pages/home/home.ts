@@ -16,15 +16,19 @@ import { Router } from '@angular/router';
 })
 export class Home {
   private sessionStorageService = inject(SessionStorage);
-  router= inject(Router);
-  subscriptionOptions: SubscriptionOption[] = [
+  private router= inject(Router);
+
+  // List of subscription options shown in the dropdown
+  private readonly subscriptionOptions: SubscriptionOption[] = [
     { value: SubscriptionType.Basic, label: 'Basic' },
     { value: SubscriptionType.Advanced, label: 'Advanced' },
     { value: SubscriptionType.Pro, label: 'Pro' },
   ];
-  passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
 
-  fields: DynamicField[] = [
+  // Regex pattern for password: at least one letter, one special char, min length 8
+  private readonly passwordPattern = '^(?=.*[A-Za-z])(?=.*[^A-Za-z0-9]).{8,}$';
+  // Form fields to be rendered dynamically
+  public readonly fields: DynamicField[] = [
     {
       name: 'firstName',
       label: 'First Name',
