@@ -1,5 +1,5 @@
 <div class="min-h-[4.0rem] w-full">
-  <ng-container *ngIf="!showSummaryErrors() || form.valid; else errorMsg">
+  <ng-container *ngIf="!showSummaryErrors()|| isErrorReadyEmpty(); else errorMsg">
     <p class="text-sm text-gray-600 leading-relaxed tracking-wide">
       Please enter the required information to process your request. Fields
       marked with <span class="text-red-500 font-bold">*</span> are mandatory.
@@ -12,12 +12,12 @@
       <ul class="list-none pl-4">
         <ng-container *ngFor="let field of fields">
           <li
-            *ngIf="form.get(field.name)?.invalid"
+            *ngIf="errorReady()[field.name]"
             class="flex items-start gap-2 w-full"
           >
             <i class="fas fa-exclamation-triangle text-yellow-500 mt-1"></i>
             {{ form.get(field.name) | formErrorMessage: field.label ||
-            field.name : field.patternHint }}
+            field.name : field.patternHint : errorReady()[field.name]}}
           </li>
         </ng-container>
       </ul>
@@ -61,10 +61,10 @@
 
         <div class="text-red-600 text-sm min-h-[1.25rem]">
           <p
-            *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid"
+            *ngIf="form.get(field.name)?.touched && errorReady()[field.name]"
           >
             {{ form.get(field.name) | formErrorMessage: field.label ||
-            field.name : field.patternHint }}
+            field.name : field.patternHint : errorReady()[field.name]}}
           </p>
         </div>
       </div>
@@ -102,10 +102,10 @@
 
         <div class="text-red-600 text-sm min-h-[2.80rem]">
           <p
-            *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid"
+            *ngIf="form.get(field.name)?.touched && errorReady()[field.name]"
           >
             {{ form.get(field.name) | formErrorMessage: field.label ||
-            field.name : field.patternHint }}
+            field.name : field.patternHint : errorReady()[field.name]}}
           </p>
         </div>
       </div>

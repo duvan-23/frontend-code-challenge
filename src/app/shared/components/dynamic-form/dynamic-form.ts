@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HighlightInvalid } from '@shared/directives/highlight-invalid';
 import { DynamicField } from '@shared/models/dynamic-field.interface';
 import { Csv } from '@shared/models/summary.interface';
+import { ValidatorErrors } from '@shared/models/validator-errors.type';
 import { FormErrorMessagePipe } from '@shared/pipes/form-error-message-pipe';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -29,7 +30,7 @@ import Swal from 'sweetalert2';
 export class DynamicForm {
   @Input({ required: true }) fields: DynamicField[] = [];
   @Input() uploadFile?: Csv;
-  @Input() edit?= false;
+  @Input() edit? = false;
   @Output() formSubmitted = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -39,6 +40,7 @@ export class DynamicForm {
   fb = inject(FormBuilder);
   formChanges!: Subscription;
   defaultFormValues!: FormGroup;
+  errorReady = signal<Record<string, ValidatorErrors | null>>({});
 
   ngOnInit() {
     this.setFileName();
@@ -51,7 +53,7 @@ export class DynamicForm {
     this.subscribeToFormChanges();
   }
 
-  setFileName(){
+  setFileName() {
     if (this.uploadFile && this.uploadFile.name) {
       this.fileName.set(this.uploadFile.name);
     }
@@ -70,12 +72,21 @@ export class DynamicForm {
         if (changedField) {
           const control = this.form.get(changedField);
           if (control && control.invalid) {
+            const current = this.errorReady();
+            current[changedField] = { ...control.errors };
+            this.errorReady.set({ ...current });
             control.markAsTouched();
+          } else {
+            const current = this.errorReady();
+            delete current[changedField];
+            this.errorReady.set({ ...current });
           }
         }
+
         if (this.form.valid) {
           this.showSummaryErrors.set(false);
         }
+
         previousValues = currentValues;
       });
   }
@@ -85,10 +96,23 @@ export class DynamicForm {
       this.formSubmitted.emit(this.form.value);
     } else {
       this.showSummaryErrors.set(true);
+      this.fields.forEach((field) => {
+        const control = this.form.get(field.name);
+        if (control?.invalid) {
+          control.markAsTouched();
+          const current = this.errorReady();
+          current[field.name] = { ...control.errors };
+          this.errorReady.set({ ...current });
+        }
+      });
     }
   }
 
-  onFileChange(event: Event, fieldName: string, inputElement: HTMLInputElement) {
+  onFileChange(
+    event: Event,
+    fieldName: string,
+    inputElement: HTMLInputElement
+  ) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput?.files?.[0];
     if (file) {
@@ -115,6 +139,7 @@ export class DynamicForm {
         confirmButtonText: 'Yes, reset it!',
       }).then((result) => {
         if (result.isConfirmed) {
+          this.errorReady.set({});
           this.formChanges.unsubscribe();
           this.form.reset(this.defaultFormValues);
           this.fileName.set(null);
@@ -127,6 +152,10 @@ export class DynamicForm {
     }
   }
 
+  isErrorReadyEmpty() {
+    return Object.keys(this.errorReady()).length === 0;
+  }
+  
   togglePassword() {
     this.showPassword.update((value) => !value);
   }

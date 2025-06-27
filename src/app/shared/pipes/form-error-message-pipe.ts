@@ -9,11 +9,11 @@ export class FormErrorMessagePipe implements PipeTransform {
   transform(
     control: AbstractControl | null,
     fieldName?: string,
-    extraMessage?: string
+    extraMessage?: string,
+    overrideErrors?: any
   ): unknown {
-    if (!control || !control.errors) return '';
-
-    const errors = control.errors;
+    const errors = overrideErrors || control?.errors;
+    if (!errors) return '';
 
     const name = fieldName || 'This field';
 
